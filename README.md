@@ -60,25 +60,11 @@ cd dbt-sathi
 start index.html
 ````
 
-### 🅑 Run With Python Server (recommended)
-
-```bash
-python3 -m http.server 8000
-```
-
-Then open: [http://localhost:8000](http://localhost:8000)
-
 ---
 
 ## 🌐 Live Deployment on GitHub Pages
 
 This project can be deployed as a static site using GitHub Pages:
-
-1. Push your project to the repository.
-2. Go to **Settings → Pages**
-3. Select **Deploy from Branch → main / root**
-4. Wait 1–2 minutes.
-5. Your live site will appear at:
    🔗 **[https://vishwajeetsah.github.io/dbt-sathi/](https://vishwajeetsah.github.io/dbt-sathi/)**
 
 ---
@@ -157,12 +143,15 @@ dbt-sathi/
 
 ## 👥 Team Saksham Members
 
-* Vishwajeet Sah — Developer & Legal (B.A. LL.B, 3rd Year)
-* Rohan Kumar — Backend Developer (B.A. LL.B, 3rd Year)
-* Heem Singh — UI/UX Designer (B.A. LL.B, 3rd Year)
-* Hariom Kurmi — Frontend Developer (B.A. LL.B, 3rd Year)
-* Seema — Content & Awareness Strategist (B.A. LL.B, 3rd Year)
-* Lakhichand Chauhan — Data Analyst / Research (BSc, 2nd Year)
+| Name                | Role                               | Course                            |
+|---------------------|------------------------------------|-----------------------------------|
+| **Vishwajeet Sah**  | Developer, Law Student *(Supreme Court Intern)* | B.A. LL.B (3rd Year) |
+| **Rohan Kumar**      | Backend Developer                   | B.A. LL.B (3rd Year) |
+| **Heem Singh**       | UI/UX Designer                      | B.A. LL.B (3rd Year) |
+| **Hariom Kurmi**     | Frontend Developer                  | B.A. LL.B (3rd Year) |
+| **Seema**             | Content & Awareness Strategist      | B.A. LL.B (3rd Year) |
+| **Lakhichand Chauhan** | Data Analyst / Research           | B.Sc (2nd Year) |
+
 
 ---
 
@@ -183,6 +172,10 @@ For questions or collaboration:
 
 **Made with ❤️ by Team SAKSHAM**
 
-```
+## ❤️ Acknowledgements
 
+We extend our heartfelt gratitude to **Pangambam Sir** for his invaluable mentorship, encouragement, and constant guidance throughout our Smart India Hackathon journey.
 
+> *Thank you Sir, for believing in us and inspiring us to push our limits.*
+
+---
