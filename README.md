@@ -99,7 +99,7 @@ dbt-sathi/
 * All SIH teams must upload their PPT using the **official SIH template**.
 * You can download the template from the official portal.
 
-📎 **[Download SIH PPT Template (Official)](https://www.sih.gov.in/sih2025#templates)**
+📎 **[Download SIH PPT Template (Official)](https://www.sih.gov.in/letters/SIH2025-IDEA-Presentation-Format.pptx)**
 🌐 **[Visit SIH Official Website](https://www.sih.gov.in/)**
 
 > ⚡ Make sure your final submission PPT strictly follows the SIH format and structure.
@@ -142,13 +142,13 @@ dbt-sathi/
 * Offers multidisciplinary UG, PG, and Doctoral programs
 * NAAC Accredited and UGC recognized
 
-🌐 [Visit University Website](http://www.dhsgsu.ac.in)
+🌐 [Visit University Website](https://dhsgsu.edu.in/index.php/en/)
 
 ---
 
 ## 👤 About Me
 
-**Name:** Vishwajeet Sah
+**Name:** Vishwajeet Sah (https://www.linkedin.com/in/vishwajeetsah?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
 **Role:** Developer | Law Student | Supreme Court Intern
 **Program:** B.A. LL.B (3rd Year) at Dr. Harisingh Gour Vishwavidyalaya, Sagar
 **Interests:** Legal tech, civic-tech solutions, public digital infrastructure
@@ -184,3 +184,4 @@ For questions or collaboration:
 **Made with ❤️ by Team SAKSHAM**
 
 ```
+
