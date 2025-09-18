@@ -148,7 +148,7 @@ dbt-sathi/
 
 ## 👤 About Me
 
-**Name:** Vishwajeet Sah (https://www.linkedin.com/in/vishwajeetsah?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
+**Name:** [Vishwajeet Sah]((https://www.linkedin.com/in/vishwajeetsah?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app))
 **Role:** Developer | Law Student | Supreme Court Intern
 **Program:** B.A. LL.B (3rd Year) at Dr. Harisingh Gour Vishwavidyalaya, Sagar
 **Interests:** Legal tech, civic-tech solutions, public digital infrastructure
@@ -184,4 +184,5 @@ For questions or collaboration:
 **Made with ❤️ by Team SAKSHAM**
 
 ```
+
 
