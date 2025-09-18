@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBT-Sathi - DBT Bank Seeding Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gov-blue': '#1e40af',
+                        'gov-orange': '#ea580c',
+                        'gov-green': '#16a34a'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gov-blue text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-gov-blue font-bold text-lg">🏛️</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">DBT-Sathi</h1>
+                        <p class="text-blue-200 text-sm">Direct Benefit Transfer Verification Portal</p>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 bg-blue-600 rounded text-sm hover:bg-blue-700 transition-colors">EN</button>
+                    <button class="px-3 py-1 bg-blue-800 rounded text-sm hover:bg-blue-700 transition-colors">हिं</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Main Form Card -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Check Your DBT Bank Seeding Status</h2>
+                <p class="text-gray-600">Verify if your Aadhaar is linked with your bank account for Direct Benefit Transfer</p>
+            </div>
+
+            <!-- Step Indicator -->
+            <div class="flex justify-center mb-8">
+                <div class="flex items-center space-x-4">
+                    <div id="step1" class="flex items-center">
+                        <div class="w-8 h-8 bg-gov-blue text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                        <span class="ml-2 text-sm font-medium text-gov-blue">Aadhaar</span>
+                    </div>
+                    <div class="w-8 h-0.5 bg-gray-300"></div>
+                    <div id="step2" class="flex items-center">
+                        <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                        <span class="ml-2 text-sm font-medium text-gray-600">Verify</span>
+                    </div>
+                    <div class="w-8 h-0.5 bg-gray-300"></div>
+                    <div id="step3" class="flex items-center">
+                        <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                        <span class="ml-2 text-sm font-medium text-gray-600">Result</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Steps -->
+            <div id="aadhaarStep" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Aadhaar Number</label>
+                    <input type="text" id="aadhaarInput" placeholder="Enter 12-digit Aadhaar number" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gov-blue focus:border-transparent text-lg tracking-widest"
+                           maxlength="12">
+                    <p class="text-xs text-gray-500 mt-1">Your Aadhaar number will be masked for security</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Captcha Verification</label>
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-gray-100 px-4 py-2 rounded border-2 border-dashed border-gray-300 font-mono text-lg tracking-wider" id="captchaDisplay">5A7K9</div>
+                        <button onclick="refreshCaptcha()" class="text-gov-blue hover:text-blue-700 text-sm">🔄 Refresh</button>
+                    </div>
+                    <input type="text" id="captchaInput" placeholder="Enter captcha" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gov-blue focus:border-transparent mt-2"
+                           maxlength="5">
+                </div>
+
+                <button onclick="proceedToOTP()" class="w-full bg-gov-blue text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                    Proceed to OTP Verification
+                </button>
+            </div>
+
+            <!-- OTP Step -->
+            <div id="otpStep" class="space-y-6 hidden">
+                <div class="text-center">
+                    <p class="text-gray-600 mb-4">OTP sent to mobile number linked with Aadhaar <span id="maskedAadhaar"></span></p>
+                    <div class="flex justify-center space-x-2 mb-4">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-gov-blue text-lg font-bold otp-input">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-gov-blue text-lg font-bold otp-input">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-gov-blue text-lg font-bold otp-input">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-gov-blue text-lg font-bold otp-input">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-gov-blue text-lg font-bold otp-input">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-gov-blue text-lg font-bold otp-input">
+                    </div>
+                    <p class="text-sm text-gray-500">Didn't receive OTP? <button class="text-gov-blue hover:underline">Resend</button></p>
+                </div>
+
+                <div class="flex space-x-4">
+                    <button onclick="goBackToAadhaar()" class="flex-1 bg-gray-500 text-white py-3 px-6 rounded-lg hover:bg-gray-600 transition-colors">
+                        Back
+                    </button>
+                    <button onclick="verifyAndShowResult()" class="flex-1 bg-gov-green text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors">
+                        Verify & Check Status
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="resultStep" class="hidden">
+                <!-- Success Result -->
+                <div id="successResult" class="text-center space-y-6 hidden">
+                    <div class="w-16 h-16 bg-gov-green rounded-full flex items-center justify-center mx-auto">
+                        <span class="text-white text-2xl">✅</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gov-green">DBT Enabled Successfully!</h3>
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                        <div class="grid md:grid-cols-2 gap-4 text-left">
+                            <div>
+                                <p class="text-sm text-gray-600">Bank Name</p>
+                                <p class="font-semibold text-gray-800" id="bankName">State Bank of India</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Branch</p>
+                                <p class="font-semibold text-gray-800" id="branchName">New Delhi Main Branch</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Seeding Date</p>
+                                <p class="font-semibold text-gray-800" id="seedingDate">15 March 2024</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Account Status</p>
+                                <p class="font-semibold text-gov-green">Active & Verified</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">Your bank account is successfully linked with Aadhaar for Direct Benefit Transfer.</p>
+                </div>
+
+                <!-- Failure Result -->
+                <div id="failureResult" class="text-center space-y-6 hidden">
+                    <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto">
+                        <span class="text-white text-2xl">❌</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-red-600">DBT Not Enabled</h3>
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+                        <p class="text-red-700 font-medium mb-4">Your Aadhaar is not linked with any bank account for DBT.</p>
+                        <div class="text-left space-y-3">
+                            <h4 class="font-semibold text-gray-800">Steps to Enable DBT:</h4>
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Visit your nearest bank branch with Aadhaar card</li>
+                                <li>Fill the Aadhaar seeding form</li>
+                                <li>Submit the form with required documents</li>
+                                <li>Wait for 7-10 working days for activation</li>
+                                <li>Verify status again using this portal</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="checkAgain()" class="w-full bg-gov-blue text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">
+                    Check Another Aadhaar
+                </button>
+            </div>
+        </div>
+
+        <!-- Support Cards -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <!-- Video Card -->
+            <div class="bg-white rounded-lg shadow-lg p-6 text-center hover:shadow-xl transition-shadow cursor-pointer" onclick="openVideo()">
+                <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white text-xl">📹</span>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-2">Awareness Video</h3>
+                <p class="text-sm text-gray-600">Learn about DBT and how to link your Aadhaar with bank account</p>
+            </div>
+
+            <!-- Chatbot Card -->
+            <div class="bg-white rounded-lg shadow-lg p-6 text-center hover:shadow-xl transition-shadow cursor-pointer" onclick="openChatbot()">
+                <div class="w-12 h-12 bg-gov-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white text-xl">🤖</span>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-2">AI Assistant</h3>
+                <p class="text-sm text-gray-600">Get instant answers to your DBT related questions</p>
+            </div>
+
+            <!-- Call Centre Card -->
+            <div class="bg-white rounded-lg shadow-lg p-6 text-center hover:shadow-xl transition-shadow cursor-pointer" onclick="openCallCentre()">
+                <div class="w-12 h-12 bg-gov-green rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white text-xl">☎️</span>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-2">Call Centre</h3>
+                <p class="text-sm text-gray-600">Speak with our support team<br><strong>May-June: 10AM-5PM</strong></p>
+            </div>
+        </div>
+
+        <!-- Check History -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Recent Checks</h3>
+            <div id="checkHistory" class="space-y-2">
+                <p class="text-gray-500 text-sm">No recent checks found</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Video Modal -->
+    <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">DBT Awareness Video</h3>
+                <button onclick="closeModal('videoModal')" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+            </div>
+            <div class="bg-gray-100 h-48 rounded-lg flex items-center justify-center mb-4">
+                <div class="text-center">
+                    <div class="text-4xl mb-2">🎬</div>
+                    <p class="text-gray-600">Video Player Placeholder</p>
+                    <p class="text-sm text-gray-500">Educational content about DBT process</p>
+                </div>
+            </div>
+            <button onclick="closeModal('videoModal')" class="w-full bg-gov-blue text-white py-2 rounded-lg hover:bg-blue-700">Close</button>
+        </div>
+    </div>
+
+    <!-- Chatbot Modal -->
+    <div id="chatbotModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md mx-4 h-96">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">DBT Assistant</h3>
+                <button onclick="closeModal('chatbotModal')" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4 h-64 overflow-y-auto mb-4" id="chatMessages">
+                <div class="bg-gov-blue text-white p-2 rounded-lg mb-2 text-sm">
+                    Hello! I'm here to help with DBT queries. Ask me anything!
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <input type="text" id="chatInput" placeholder="Type your question..." class="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-gov-blue">
+                <button onclick="sendMessage()" class="bg-gov-blue text-white px-4 py-2 rounded-lg hover:bg-blue-700">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call Centre Modal -->
+    <div id="callModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Call Centre Support</h3>
+                <button onclick="closeModal('callModal')" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+            </div>
+            <div class="text-center space-y-4">
+                <div class="text-4xl">📞</div>
+                <div>
+                    <p class="text-xl font-bold text-gov-blue">1800-XXX-XXXX</p>
+                    <p class="text-sm text-gray-600">Toll-free helpline</p>
+                </div>
+                <div class="bg-gov-orange bg-opacity-10 border border-gov-orange rounded-lg p-4">
+                    <p class="font-semibold text-gov-orange">Operating Hours</p>
+                    <p class="text-sm">May - June: 10:00 AM to 5:00 PM</p>
+                    <p class="text-xs text-gray-600">Monday to Friday (Excluding holidays)</p>
+                </div>
+                <p class="text-sm text-gray-600">Our support team will help you with DBT related queries and technical assistance.</p>
+            </div>
+            <button onclick="closeModal('callModal')" class="w-full bg-gov-blue text-white py-2 rounded-lg hover:bg-blue-700 mt-4">Close</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let toggleResult = true; // For alternating results
+        let captchaValue = '5A7K9';
+
+        // Aadhaar input formatting and masking
+        document.getElementById('aadhaarInput').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 12) value = value.slice(0, 12);
+            e.target.value = value;
+        });
+
+        // OTP input handling
+        document.querySelectorAll('.otp-input').forEach((input, index) => {
+            input.addEventListener('input', function(e) {
+                if (e.target.value.length === 1 && index < 5) {
+                    document.querySelectorAll('.otp-input')[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                    document.querySelectorAll('.otp-input')[index - 1].focus();
+                }
+            });
+        });
+
+        function refreshCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            captchaValue = '';
+            for (let i = 0; i < 5; i++) {
+                captchaValue += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('captchaDisplay').textContent = captchaValue;
+        }
+
+        function proceedToOTP() {
+            const aadhaar = document.getElementById('aadhaarInput').value;
+            const captcha = document.getElementById('captchaInput').value;
+
+            if (aadhaar.length !== 12) {
+                alert('Please enter a valid 12-digit Aadhaar number');
+                return;
+            }
+
+            if (captcha.toUpperCase() !== captchaValue) {
+                alert('Invalid captcha. Please try again.');
+                refreshCaptcha();
+                document.getElementById('captchaInput').value = '';
+                return;
+            }
+
+            // Mask Aadhaar
+            const maskedAadhaar = 'XXXX-XXXX-' + aadhaar.slice(-4);
+            document.getElementById('maskedAadhaar').textContent = maskedAadhaar;
+
+            // Update steps
+            updateStepIndicator(2);
+            document.getElementById('aadhaarStep').classList.add('hidden');
+            document.getElementById('otpStep').classList.remove('hidden');
+        }
+
+        function goBackToAadhaar() {
+            updateStepIndicator(1);
+            document.getElementById('otpStep').classList.add('hidden');
+            document.getElementById('aadhaarStep').classList.remove('hidden');
+        }
+
+        function verifyAndShowResult() {
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+
+            if (otp.length !== 6) {
+                alert('Please enter complete 6-digit OTP');
+                return;
+            }
+
+            // Update steps
+            updateStepIndicator(3);
+            document.getElementById('otpStep').classList.add('hidden');
+            document.getElementById('resultStep').classList.remove('hidden');
+
+            // Toggle between success and failure
+            if (toggleResult) {
+                document.getElementById('successResult').classList.remove('hidden');
+                document.getElementById('failureResult').classList.add('hidden');
+                
+                // Randomize bank details
+                const banks = ['State Bank of India', 'HDFC Bank', 'ICICI Bank', 'Punjab National Bank'];
+                const branches = ['New Delhi Main Branch', 'Mumbai Central', 'Bangalore Electronic City', 'Chennai Anna Nagar'];
+                const dates = ['15 March 2024', '22 February 2024', '08 January 2024', '30 December 2023'];
+                
+                document.getElementById('bankName').textContent = banks[Math.floor(Math.random() * banks.length)];
+                document.getElementById('branchName').textContent = branches[Math.floor(Math.random() * branches.length)];
+                document.getElementById('seedingDate').textContent = dates[Math.floor(Math.random() * dates.length)];
+            } else {
+                document.getElementById('failureResult').classList.remove('hidden');
+                document.getElementById('successResult').classList.add('hidden');
+            }
+
+            toggleResult = !toggleResult;
+
+            // Add to history
+            addToHistory();
+        }
+
+        function checkAgain() {
+            // Reset form
+            currentStep = 1;
+            updateStepIndicator(1);
+            document.getElementById('resultStep').classList.add('hidden');
+            document.getElementById('aadhaarStep').classList.remove('hidden');
+            
+            // Clear inputs
+            document.getElementById('aadhaarInput').value = '';
+            document.getElementById('captchaInput').value = '';
+            document.querySelectorAll('.otp-input').forEach(input => input.value = '');
+            
+            refreshCaptcha();
+        }
+
+        function updateStepIndicator(step) {
+            currentStep = step;
+            
+            for (let i = 1; i <= 3; i++) {
+                const stepElement = document.getElementById(`step${i}`);
+                const circle = stepElement.querySelector('div');
+                const text = stepElement.querySelector('span');
+                
+                if (i <= step) {
+                    circle.className = 'w-8 h-8 bg-gov-blue text-white rounded-full flex items-center justify-center text-sm font-bold';
+                    text.className = 'ml-2 text-sm font-medium text-gov-blue';
+                } else {
+                    circle.className = 'w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-bold';
+                    text.className = 'ml-2 text-sm font-medium text-gray-600';
+                }
+            }
+        }
+
+        function addToHistory() {
+            const aadhaar = document.getElementById('aadhaarInput').value;
+            const maskedAadhaar = 'XXXX-XXXX-' + aadhaar.slice(-4);
+            const timestamp = new Date().toLocaleString();
+            const status = toggleResult ? 'Not Enabled' : 'Enabled'; // Opposite because we already toggled
+            
+            let history = JSON.parse(localStorage.getItem('dbtHistory') || '[]');
+            history.unshift({ aadhaar: maskedAadhaar, timestamp, status });
+            history = history.slice(0, 5); // Keep only last 5
+            localStorage.setItem('dbtHistory', JSON.stringify(history));
+            
+            displayHistory();
+        }
+
+        function displayHistory() {
+            const history = JSON.parse(localStorage.getItem('dbtHistory') || '[]');
+            const historyDiv = document.getElementById('checkHistory');
+            
+            if (history.length === 0) {
+                historyDiv.innerHTML = '<p class="text-gray-500 text-sm">No recent checks found</p>';
+                return;
+            }
+            
+            historyDiv.innerHTML = history.map(item => `
+                <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                    <div>
+                        <p class="font-medium text-sm">${item.aadhaar}</p>
+                        <p class="text-xs text-gray-500">${item.timestamp}</p>
+                    </div>
+                    <span class="px-2 py-1 rounded text-xs ${item.status === 'Enabled' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${item.status}</span>
+                </div>
+            `).join('');
+        }
+
+        // Modal functions
+        function openVideo() {
+            document.getElementById('videoModal').classList.remove('hidden');
+            document.getElementById('videoModal').classList.add('flex');
+        }
+
+        function openChatbot() {
+            document.getElementById('chatbotModal').classList.remove('hidden');
+            document.getElementById('chatbotModal').classList.add('flex');
+        }
+
+        function openCallCentre() {
+            document.getElementById('callModal').classList.remove('hidden');
+            document.getElementById('callModal').classList.add('flex');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.getElementById(modalId).classList.remove('flex');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Add user message
+            chatMessages.innerHTML += `
+                <div class="bg-gray-200 p-2 rounded-lg mb-2 text-sm ml-8">
+                    ${message}
+                </div>
+            `;
+            
+            // Add bot response
+            const responses = [
+                "To link your Aadhaar with bank account, visit your nearest bank branch with original Aadhaar card.",
+                "DBT seeding usually takes 7-10 working days after submitting the form at bank.",
+                "You can check your DBT status anytime using this portal with your Aadhaar number.",
+                "For technical issues, please contact our helpline during working hours.",
+                "Make sure your mobile number is updated in both Aadhaar and bank records."
+            ];
+            
+            setTimeout(() => {
+                chatMessages.innerHTML += `
+                    <div class="bg-gov-blue text-white p-2 rounded-lg mb-2 text-sm">
+                        ${responses[Math.floor(Math.random() * responses.length)]}
+                    </div>
+                `;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+            
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayHistory();
+            refreshCaptcha();
+        });
+
+        // Handle Enter key in chat
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9813dc3282a25958',t:'MTc1ODIzMDE0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
