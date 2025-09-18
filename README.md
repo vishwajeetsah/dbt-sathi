@@ -1,165 +1,161 @@
-```markdown
-# DBT-Sathi — DBT Bank Seeding Verification (Prototype)
+# 🏛️ DBT-Sathi — DBT Bank Seeding Verification Prototype
 
-**Team:** Saksham  
-**Hackathon:** Smart India Hackathon / University Ideathon (Reference: Problem Statement ID25059)  
-**Project:** DBT-Sathi — Student awareness & verification platform for Aadhaar → DBT seeding
-
----
-
-## 🚀 Project Summary
-
-**DBT-Sathi** is a student-focused prototype web app that helps users verify whether their Aadhaar is seeded with a bank account for Direct Benefit Transfer (DBT). The prototype demonstrates the full user journey:
-
-- Awareness (video + guide)
-- DBT verification (Aadhaar → Captcha → OTP flow — **simulated** in prototype)
-- Support (chatbot mock + call center info)
-- Result screen (DBT Enabled / Not Enabled)
-- Recent check history (local)
-
-> ⚠️ **Important:** This prototype is a **demo** and does NOT call UIDAI or NPCI production APIs. It uses **mocked results** for demonstration. Real integration requires official approvals and secure server-side integration.
+*Team Name:* SAKSHAM  
+*Hackathon:* Smart India Hackathon 2025 (SIH)  
+*Problem Statement ID:* 25059  
+*Theme:* Miscellaneous  
+*Organization:* Ministry of Social Justice & Empowerment (MoSJE)  
+*Department:* Department of Social Justice & Empowerment (DoSJE)  
 
 ---
 
-## 🎯 Problem Statement (aligned to SIH ID25059)
+## 📌 About the Project
 
-Many students do not understand the difference between **Aadhaar-linked** and **DBT-enabled Aadhaar-seeded bank accounts**, causing scholarship payment failures and delays. DBT-Sathi addresses this shortfall by combining awareness campaigns and a verification/support tool (App/Web/WhatsApp/SMS).
+*DBT-Sathi* is a web-based platform that helps students verify whether their bank account is *Aadhaar-seeded and DBT-enabled**, ensuring they receive their **scholarship amounts on time*.  
 
----
-
-## ✨ Features (Prototype)
-
-- Clean 3-step verification UI (Aadhaar → Captcha → OTP)
-- Demo toggle behavior: verification alternates between **Enabled** and **Not Enabled** to show both flows
-- Mock DBT success screen with randomized bank details
-- Not-enabled flow with step-by-step guide and awareness video placeholder
-- Chatbot (mock, scripted responses)
-- Call center card with availability (May–June demonstration scheduling)
-- Recent checks saved locally (masked Aadhaar)
-- Responsive layout using Tailwind CSS
+This project directly addresses the issue that **most scholarship payment delays are caused by confusion between “Aadhaar-linked” and “DBT-enabled” bank accounts.**
 
 ---
 
-## 🧩 Tech Stack (Prototype)
+## 🎯 Core Features
 
-- Frontend: Plain HTML / CSS (Tailwind) / JavaScript
-- No backend required for prototype (static site)
-- Storage: `localStorage` (for demo check history)
-- Deployment: GitHub Pages (static hosting)
-
----
-
-## 📁 Repository Structure (example)
-
-```
-
-dbt-sathi/
-├─ index.html
-├─ saksham-logo.png
-├─ README.md
-└─ (optional) assets/
-├─ style.css
-└─ video-placeholder.mp4
-
-````
+- **Awareness Campaigns** — Infographics, videos, Gram Panchayat boards, PTA sessions  
+- **DBT Verification Tool** — Aadhaar ➜ Captcha ➜ OTP ➜ DBT Status (mocked)  
+- **Multichannel Support** — App/Web/WhatsApp bot + SMS/USSD for offline users  
+- **Grievance & Call Support** — Seasonal call center (May–June), chatbot support  
+- **Recent Check History** — Stores masked Aadhaar and DBT status locally  
+- **Multilingual UI** — English + Hindi interface (demo)
 
 ---
 
-## 🛠️ How to Run Locally (quick)
+## 📋 Problem Statement
 
-### Option A — Quick (no installs)
-1. Open `index.html` directly in your browser (double click file).  
-   - Note: Some browsers restrict `localStorage`/video playback for `file://` — for best results use a local server.
+**Problem Statement ID 25059 — SIH 2025**  
+> “Enhancing Student Awareness on the difference between Aadhaar-linked and Direct Beneficiary Transfer (DBT)-enabled Aadhaar-seeded bank accounts.”
 
-### Option B — Using Python (recommended)
+The **SCD-V Division, DoSJE** implements centrally sponsored **Pre-Matric and Post-Matric Scholarship Schemes**. These funds are directly transferred only to **DBT-enabled Aadhaar-seeded bank accounts**.  
+
+However, a large number of students are **unaware of the distinction** between simple Aadhaar linking and DBT-enabled seeding, leading to delays, failed payments, and financial stress.
+
+---
+
+## ⚙️ Tech Stack
+
+- **Frontend:** HTML + Tailwind CSS + Vanilla JS  
+- **Backend:** None (Prototype only)  
+- **Storage:** Browser `localStorage` for demo history  
+- **Hosting:** GitHub Pages (static site)
+
+---
+
+## 💻 How to Run This Project
+
+### 🅐 Run Locally
 ```bash
-# inside repo folder
-python3 -m http.server 8000
-# then open http://localhost:8000 in your browser
+# clone the repo
+git clone https://github.com/vishwajeetsah/dbt-sathi.git
+cd dbt-sathi
+
+# open directly
+start index.html
 ````
 
-### Option C — Using VS Code Live Server
+### 🅑 Run With Python Server (recommended)
 
-* Install Live Server extension → Right-click `index.html` → `Open with Live Server`
-
----
-
-## 📦 Deploy to GitHub Pages (step-by-step)
-
-1. Create repo on GitHub (e.g. `dbt-sathi`) and push code.
-2. In repo → **Settings** → **Pages** → Source: `main (root)` → Save.
-3. Wait 1–2 minutes; published site will be:
-
-```
-https://<your-github-username>.github.io/dbt-sathi/
+```bash
+python3 -m http.server 8000
 ```
 
-4. Add the live link to your hackathon submission.
+Then open: [http://localhost:8000](http://localhost:8000)
 
 ---
 
-## 📋 How the Prototype Mocking Works (explainable for reviewers)
+## 🌐 Live Deployment on GitHub Pages
 
-* **Mock toggle**: Prototype uses a boolean `toggleResult` to switch between success/failure each verification attempt. This allows the demo to show both the DBT-enabled path and the Not-enabled path.
-* **Mock OTP**: OTP UI is simulated — the prototype does not send SMS. Any 6-digit OTP is accepted for demo.
-* **Sample data**: When showing `DBT Enabled`, sample bank name / branch / seeding date are chosen randomly from arrays to demonstrate variability.
-* **History**: The site masks Aadhaar (e.g., `XXXX-XXXX-1234`) and stores last 5 checks in `localStorage` for demo convenience.
+This project can be deployed as a static site using GitHub Pages:
 
-**Why mock?**
-Real UIDAI/NPCI APIs are secured (CAPTCHA+OTP + legal access). For the hackathon, this simulation demonstrates UX, flow and design clearly, without touching sensitive systems.
-
----
-
-## 🔁 How to Switch from Mock to Real (future plan)
-
-> Only implement real calls after official approvals and compliance checks.
-
-1. **Backend server** (Node/Express or Python Flask) — required for secure server-to-server calls and to store credentials safely.
-2. **Obtain APIs & Credentials**:
-
-   * Seek official access to NPCI DBT mapper / UIDAI authentication via ministry channels.
-3. **Server-side flow**:
-
-   * Frontend sends masked Aadhaar (or request token) to your backend.
-   * Backend performs authenticated call to UIDAI/NPCI auth endpoints.
-   * Backend returns DBT status to frontend (never expose raw Aadhaar to client).
-4. **Security**:
-
-   * Use HTTPS, store secrets in environment variables.
-   * Adhere to UIDAI Aadhaar data masking & retention policies.
-   * Maintain audit logs; do not persist full Aadhaar numbers.
+1. Push your project to the repository.
+2. Go to **Settings → Pages**
+3. Select **Deploy from Branch → main / root**
+4. Wait 1–2 minutes.
+5. Your live site will appear at:
+   🔗 **[https://vishwajeetsah.github.io/dbt-sathi/](https://vishwajeetsah.github.io/dbt-sathi/)**
 
 ---
 
-## 🔐 Privacy & Security Notes (must-have in public repo)
+## 📂 Repository Structure
 
-* **This repo is a prototype and does not process real Aadhaar data.**
-* For production: NEVER store full Aadhaar numbers in logs or DB; store only masked or hashed identifiers per UIDAI rules.
-* Use strong encryption and follow government security guidelines before integrating with real systems.
-
----
-
-## 🧪 Demo Use Cases for Judges
-
-* Use Aadhaar `123456789012` (demo) → shows **DBT Enabled** (first run)
-* Re-check same or another Aadhaar → shows **Not Enabled** (toggle)
-* Use video modal and chatbot to show awareness & support flows
-* Show call center card and explain seasonal intern-supported helpline (May–June)
+```
+dbt-sathi/
+├── index.html
+├── saksham-logo.png
+├── README.md
+```
 
 ---
 
-## 📄 README / Documentation (what to include in your repo)
+## 📑 Mandatory PPT Submission
 
-* This `README.md` with setup + run instructions
-* `index.html` (main prototype)
-* `saksham-logo.png` (team logo)
-* `LICENSE` (suggest MIT)
-* `CHANGELOG.md` (optional — track progress)
-* `DEMO.md` (optional — screenshots + video link)
+* All SIH teams must upload their PPT using the **official SIH template**.
+* You can download the template from the official portal.
+
+📎 **[Download SIH PPT Template (Official)](https://www.sih.gov.in/sih2025#templates)**
+🌐 **[Visit SIH Official Website](https://www.sih.gov.in/)**
+
+> ⚡ Make sure your final submission PPT strictly follows the SIH format and structure.
 
 ---
 
-## 👥 Team
+## 🧠 About Smart India Hackathon (SIH)
+
+* **SIH** is a nationwide initiative by the Ministry of Education, Government of India.
+* It invites **students from all universities and colleges in India** to solve **real-life problem statements** from government ministries and departments.
+* Teams propose software or hardware solutions to selected problems.
+
+**Eligibility:**
+
+* Any student currently enrolled in an Indian university/college (UG/PG)
+* Interdisciplinary teams encouraged (max 6 members + 2 mentors)
+
+**Who Can Participate:**
+
+* Regular students from AICTE/UGC-approved institutes
+* Both software and hardware problem statements are offered
+
+**Important Dates (Tentative for SIH 2025):**
+
+* 📅 **Problem Statements Released:** May–June 2025
+* 📅 **Internal Hackathons (College level):** July–August 2025
+* 📅 **Idea Submission on SIH Portal:** August–September 2025
+* 📅 **Grand Finale:** November–December 2025
+
+🔗 Official Portal: [https://www.sih.gov.in](https://www.sih.gov.in)
+
+---
+
+## 🏛️ About Our University
+
+**Dr. Harisingh Gour Vishwavidyalaya, Sagar (M.P.)**
+
+* A Central University established in 1946
+* Among India’s oldest and most reputed universities
+* Offers multidisciplinary UG, PG, and Doctoral programs
+* NAAC Accredited and UGC recognized
+
+🌐 [Visit University Website](http://www.dhsgsu.ac.in)
+
+---
+
+## 👤 About Me
+
+**Name:** Vishwajeet Sah
+**Role:** Developer | Law Student | Supreme Court Intern
+**Program:** B.A. LL.B (3rd Year) at Dr. Harisingh Gour Vishwavidyalaya, Sagar
+**Interests:** Legal tech, civic-tech solutions, public digital infrastructure
+
+---
+
+## 👥 Team Saksham Members
 
 * Vishwajeet Sah — Developer & Legal (B.A. LL.B, 3rd Year)
 * Rohan Kumar — Backend Developer (B.A. LL.B, 3rd Year)
@@ -170,80 +166,21 @@ Real UIDAI/NPCI APIs are secured (CAPTCHA+OTP + legal access). For the hackathon
 
 ---
 
-## 🧾 Acknowledgements & References
-
-* Problem Statement ID25059 — MoSJE / DoSJE (DBT-Aadhaar awareness)
-* UIDAI documentation (public site) — for understanding seeding concepts
-* NPCI docs (for future DBT mapper integration)
-
----
-
-## 📝 Example `README.md` snippet to add to your repo (copy/paste)
-
-> Use the content of this README as your `README.md` file.
-
----
-
-## 🧰 Useful Commands (Git quick reference)
-
-```bash
-# Initialize repo locally
-git init
-git add .
-git commit -m "Initial commit: DBT-Sathi prototype"
-
-# Add remote and push
-git remote add origin https://github.com/<your-username>/dbt-sathi.git
-git branch -M main
-git push -u origin main
-```
-
----
-
 ## ⚖️ License
 
-We recommend **MIT License** for the prototype.
-
-```text
-MIT License
-Copyright (c) <year> Team Saksham
-...
-```
+This project is open source under the **MIT License**.
+Feel free to use or adapt it for educational and non-commercial purposes.
 
 ---
 
-## ❓ Frequently Asked (Hackathon-specific)
+## 📬 Contact
 
-**Q: Does the demo use real Aadhaar data?**
-A: No. Demo uses mock toggled results and does not call UIDAI.
-
-**Q: Can this be production-ready?**
-A: Yes — after official API access, backend integration, and compliance checks (UIDAI/NPCI).
-
-**Q: How do you plan to scale this?**
-A: Cloud-hosted backend, caching, seasonal call-centre scaling, and roll-out with government partnerships.
+For questions or collaboration:
+*📧 Email:* vishwajeetsah@yahoo.com
+*🧑‍💻 GitHub:* [vishwajeetsah](https://github.com/vishwajeetsah)
 
 ---
 
-## 📞 Contact
+**Made with ❤️ by Team SAKSHAM**
 
-For collaboration or questions, contact:
-**Team Saksham** — \[[email@example.com](mailto:email@example.com)] *(replace with actual email)*
-
----
-
-**Thank you — DBT-Sathi (Team Saksham)**
-
-```
-
----
-
-If you want, I can now:
-
-- ✅ Customize the README with your exact GitHub username and live URL (if you already deployed), or
-- ✅ Generate the `LICENSE` file content (MIT) and `CHANGELOG.md` template, or
-- ✅ Create a short `DEMO.md` that lists the exact Aadhaar sample values and step-by-step actions the judge should click during demo.
-
-Now — you said *“before that i have a questions”*. Go ahead and ask your questions — I’m ready to answer them. If you prefer, I can also immediately tailor the README to include your exact GitHub username and the live URL after you push. Which do you want first?
-::contentReference[oaicite:0]{index=0}
 ```
